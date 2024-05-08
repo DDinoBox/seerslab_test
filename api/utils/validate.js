@@ -15,4 +15,4 @@ const validateEmailAndPassword = (email, password) => {
   };
 };
 
-export { validateEmailAndPassword };
+export default validateEmailAndPassword;
