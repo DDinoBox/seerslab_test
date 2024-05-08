@@ -13,4 +13,11 @@ const signUp = catchAsync(async ({ body: { email, password, name } }, res) => {
   res.status(201).json({ message: 'USER_SIGN_UP_COMPLETE' });
 });
 
-export default { signUp };
+const signIn = catchAsync(async ({ body: { email, password } }, res) => {
+
+  const accessToken = await userService.signIn(email, password);
+
+  res.status(200).json({ accessToken }); 
+})
+
+export default { signUp, signIn };

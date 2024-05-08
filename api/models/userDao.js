@@ -29,4 +29,27 @@ const createUser = async (email, password, name) => {
   }
 };
 
-export default { createUser };
+const getUserByEmail = async (email) => {
+  try {
+    const [result] = await dataSource.query(
+      `
+        SELECT
+          id,
+          email,
+          password,
+          name
+        FROM users
+        WHERE email = ?
+      `,
+      [email]
+    );
+    return result;
+  } catch {
+    const error = new Error('DATASOURCE_ERROR');
+    error.statusCode = 400;
+
+    throw error;
+  }
+};
+
+export default { createUser, getUserByEmail };
