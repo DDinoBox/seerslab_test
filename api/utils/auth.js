@@ -22,7 +22,7 @@ const loginRequired = async (req, res, next) => {
       return res.status(error.statusCode).json({ message: error.message });
     }
     req.user = user;
-    console.log(user)
+
     next();
   } catch {
     const error = new Error('INVALID_ACCESS_TOKEN');

@@ -26,7 +26,7 @@ SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ '';
 CREATE TABLE `board` (
   `id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
-  `titel` varchar(100) NOT NULL,
+  `title` varchar(100) NOT NULL,
   `content` varchar(1000) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
