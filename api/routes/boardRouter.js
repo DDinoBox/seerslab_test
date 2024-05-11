@@ -5,6 +5,7 @@ import loginRequired from '../utils/auth.js';
 const boardRouter = express.Router();
 
 boardRouter.post('/create', loginRequired, boardController.boardCreate);
+boardRouter.delete('/delete', loginRequired, boardController.boardDelete);
 boardRouter.get('/', boardController.getBoard);
 boardRouter.get('/:postId', boardController.getPostDetail);
 

@@ -6,9 +6,27 @@ const createBoard = async (userId, title, content) => {
       'INSERT INTO board (user_id, title, content) VALUES (?, ?, ?)',
       [userId, title, content]
     );
-    return createBoardResult;
+    return createBoardResult.insertId;
   } catch (error) {
     console.error('ERROR CREATING USER:', error);
+    throw error;
+  }
+};
+
+const deleteBoard = async (userId, boardId) => {
+  try {
+    const result = await dataSource.query(
+      `
+      DELETE board, comments
+      FROM board
+      LEFT JOIN comments ON board.id = comments.board_id
+      WHERE board.user_id = ? AND board.id = ?
+      ;
+      `,
+      [userId, boardId]
+    );
+    return result;
+  } catch (error) {
     throw error;
   }
 };
@@ -48,6 +66,7 @@ const getPostDetail = async (boardId) => {
       `
       SELECT
       b.id AS boardId,
+      u.id AS userId,
       u.name,
       b.title,
       b.content,
@@ -83,4 +102,4 @@ const getPostDetail = async (boardId) => {
   }
 };
 
-export default { createBoard, getPostList, getPostDetail };
+export default { createBoard, deleteBoard, getPostList, getPostDetail};
