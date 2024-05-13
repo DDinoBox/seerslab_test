@@ -12,7 +12,6 @@ const boardCreate =  catchAsync(async({ user: { id }, body: { title, content }},
   res.status(201).json({ message: 'SUCCESS',boardId });  
 });
 
-
 const boardDelete = catchAsync(async ({ user: { id }, body: { boardId }}, res) => {
   if (!boardId) {
     const error = new Error('KEY_ERROR');

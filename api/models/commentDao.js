@@ -13,12 +13,30 @@ const createComment = async (userId, boardId, content) => {
   }
 };
 
+const deleteComment = async (userId, commentId) => {
+  try {
+    const result = await dataSource.query(
+      `
+      DELETE comments
+      FROM comments
+      WHERE comments.user_id = ? AND comments.id = ?
+      ;
+      `,
+      [userId, commentId]
+    );
+    return result;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const getComment = async (commentId) => {
   try {
     const commentDetail = await dataSource.query(
       `
       SELECT
         c.id AS commentId,
+        u.id AS userId,
         u.name,
         c.content,
         DATE_FORMAT(c.created_at, '%Y-%m-%d %T') AS time
@@ -34,4 +52,4 @@ const getComment = async (commentId) => {
   }
 };
 
-export default { createComment, getComment };
+export default { createComment, getComment, deleteComment };
