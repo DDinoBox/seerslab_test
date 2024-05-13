@@ -12,7 +12,6 @@ const boardCreate =  catchAsync(async({ user: { id }, body: { title, content }},
   res.status(201).json({ message: 'SUCCESS',boardId });  
 });
 
-
 const boardDelete = catchAsync(async ({ user: { id }, body: { boardId }}, res) => {
   if (!boardId) {
     const error = new Error('KEY_ERROR');
@@ -21,7 +20,7 @@ const boardDelete = catchAsync(async ({ user: { id }, body: { boardId }}, res) =
   };
   const userId = id
   await boardService.boardDelete(userId, boardId);
-  res.status(200).json({ message: 'FILE_DELETED' });
+  res.status(200).json({ message: 'POST_DELETED' });
 });
 
 const getBoard = catchAsync(async (req, res) => {
