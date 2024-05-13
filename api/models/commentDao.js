@@ -13,4 +13,25 @@ const createComment = async (userId, boardId, content) => {
   }
 };
 
-export default { createComment };
+const getComment = async (commentId) => {
+  try {
+    const commentDetail = await dataSource.query(
+      `
+      SELECT
+        c.id AS commentId,
+        u.name,
+        c.content,
+        DATE_FORMAT(c.created_at, '%Y-%m-%d %T') AS time
+      FROM comments c
+      LEFT JOIN users u ON u.id = c.user_id
+      WHERE c.id = ?
+      `,
+      [commentId]
+    );
+    return commentDetail;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export default { createComment, getComment };

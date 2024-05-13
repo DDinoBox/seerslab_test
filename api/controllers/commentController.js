@@ -12,4 +12,10 @@ const commentCreate =  catchAsync(async({ user: { id }, body: { boardId, content
   res.status(201).json({ message: 'SUCCESS' });  
 });
 
-export default { commentCreate };
+const getComment = catchAsync(async (req, res) => {
+  const commentId = req.params.commentId;
+  const getComment = await commentService.getComment(commentId);
+  res.status(200).json({ data: getComment });
+});
+
+export default { commentCreate, getComment };

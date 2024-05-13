@@ -7,7 +7,6 @@ const boardCreate = async (userId, title, content) => {
 
 const boardDelete = async (userId, boardId) => {
   const postDetail = await boardDao.getPostDetail(boardId);
-  console.log(postDetail)
   if (!postDetail || postDetail.length === 0) {
     const error = new Error('UNREGISTERED_BOARD_ID');
     error.statusCode = 401;

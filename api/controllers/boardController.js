@@ -21,7 +21,7 @@ const boardDelete = catchAsync(async ({ user: { id }, body: { boardId }}, res) =
   };
   const userId = id
   await boardService.boardDelete(userId, boardId);
-  res.status(200).json({ message: 'FILE_DELETED' });
+  res.status(200).json({ message: 'POST_DELETED' });
 });
 
 const getBoard = catchAsync(async (req, res) => {
