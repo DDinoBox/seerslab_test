@@ -24,8 +24,11 @@ const boardDelete = catchAsync(async ({ user: { id }, body: { boardId }}, res) =
 });
 
 const getBoard = catchAsync(async (req, res) => {
-  const getPostList = await boardService.getPostList();
-  res.status(200).json({ data: getPostList });
+  const { page = 1, limit = 5 } = req.query;
+  const offset = (page - 1) * limit;
+  const [postList, totalCount] = await boardService.getPostList(offset, limit); // 수정된 함수 호출
+  const totalPages = Math.ceil(totalCount / limit);
+  res.status(200).json({ data: postList, totalPages });
 });
 
 const getPostDetail = catchAsync(async (req, res) => {
