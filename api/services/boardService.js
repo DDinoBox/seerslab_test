@@ -20,8 +20,12 @@ const boardDelete = async (userId, boardId) => {
   await boardDao.deleteBoard(userId, boardId);
 };
 
-const getPostList = async () => {
-  return await boardDao.getPostList();
+const getPostList = async (offset, limit) => {
+  const [postDetail, totalCount] = await Promise.all([
+    boardDao.getPostList(offset, limit),
+    boardDao.getPostCount()
+  ]);
+  return [postDetail, totalCount];
 };
 
 const getPostDetail = async (postId) => {

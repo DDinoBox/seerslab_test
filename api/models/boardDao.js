@@ -31,33 +31,37 @@ const deleteBoard = async (userId, boardId) => {
   }
 };
 
-const getPostList = async () => {
-  try {
-    const postDetail = await dataSource.query(
-      `
-      SELECT
-      b.id AS boardId,
-      u.name,
-      b.title,
-      b.content,
-      DATE_FORMAT(b.created_at, '%Y-%m-%d %T') AS time,
-      (
-          SELECT COUNT(*) FROM comments WHERE board_id = b.id
-      ) AS commentCount
-      FROM 
-          board b
-      LEFT JOIN 
-          users u ON u.id = b.user_id
-      GROUP BY 
-          b.id, u.name, b.title, b.content, b.created_at
-      ORDER BY 
-          b.id;
-      `
-    );
-    return postDetail;
-  } catch (error) {
-    throw error;
-  }
+const getPostList = async (offset, limit) => {
+  const postDetail = await dataSource.query(
+    `
+    SELECT
+    b.id AS boardId,
+    u.name,
+    b.title,
+    b.content,
+    DATE_FORMAT(b.created_at, '%Y-%m-%d %T') AS time,
+    (
+        SELECT COUNT(*) FROM comments WHERE board_id = b.id
+    ) AS commentCount
+    FROM 
+        board b
+    LEFT JOIN 
+        users u ON u.id = b.user_id
+    GROUP BY 
+        b.id, u.name, b.title, b.content, b.created_at
+    ORDER BY 
+        b.id
+    LIMIT ?, ?;`,
+    [offset, limit]
+  );
+  return postDetail;
+};
+
+const getPostCount = async () => {
+  const count = await dataSource.query(
+    `SELECT COUNT(*) AS totalCount FROM board;`
+  );
+  return count[0].totalCount;
 };
 
 const getPostDetail = async (boardId) => {
@@ -102,4 +106,4 @@ const getPostDetail = async (boardId) => {
   }
 };
 
-export default { createBoard, deleteBoard, getPostList, getPostDetail};
+export default { createBoard, deleteBoard, getPostList, getPostCount, getPostDetail };
