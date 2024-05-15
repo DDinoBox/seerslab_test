@@ -14,10 +14,8 @@ const signUp = catchAsync(async ({ body: { email, password, name } }, res) => {
 });
 
 const signIn = catchAsync(async ({ body: { email, password } }, res) => {
-
-  const accessToken = await userService.signIn(email, password);
-
-  res.status(200).json({ accessToken }); 
+  const result = await userService.signIn(email, password);
+  res.status(200).json(result); 
 })
 
 export default { signUp, signIn };
