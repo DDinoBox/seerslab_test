@@ -44,7 +44,7 @@ const signIn = async (email, password) => {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
 
-  return accessToken;
+  return { accessToken, name: user.name };
 };
 
 export default { signUp, signIn };
